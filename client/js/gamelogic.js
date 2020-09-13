@@ -1,3 +1,6 @@
+// 
+//   Variables 
+// 
 
 // canvas object and size configuration.
 
@@ -39,15 +42,14 @@ player.y = 300;
 player.width = 10;
 player.height = 300;
 
-
-
-
 // hides the mouse cursor when it hovers the body section of the page.
 document.body.style.cursor = 'none';
 
-//calls update function
-updatePlayerPosition();
 
+
+// 
+//   Functions 
+// 
 
 function ballStartingPoint() {
   // X and Y coords
@@ -75,9 +77,6 @@ function ballUpdate() {
   // ball draw
   ctx.fillRect(x, y, 10, 10);
 
-
-
-
   if (x > canvas.width) { spdX = -20; }
   if (x <= 0) {
     drawScore(score.points)
@@ -92,25 +91,46 @@ function ballUpdate() {
   if (y > canvas.height) { spdY = -20; }
   if (y < 0) { spdY = 20; }
 
-
 }
 
+function updatePlayerPosition() {
+  //fills rectangle with red color hexadecimals value
+  ctx.fillStyle = "#FF0000";
+  //creates a rectangle on x and y position
+  ctx.fillRect(player.x, player.y, player.width, player.height);
+}
+
+function scorePoint() {
+  score.points++;
+}
+
+function drawScore() {
+  ctx.clearRect(score.x, (score.y - 25), 150, 25);
+  // ctx.fillRect(score.x, (score.y - 25), 150, 25);
+  ctx.font = "25px Arial";
+  ctx.fillText('Score: ' + score.points, score.x, score.y);
+}
+
+function checkCollition() {
+  if ((x <= player.x && y >= player.y && y <= (player.y + player.height))) {
+    if (x > 0) {
+      spdX += 20;
+    }
+  }
+}
+
+// 
+// Call functions
+// 
+
+
+
+//update function
+updatePlayerPosition();
 
 ballStartingPoint();
 setInterval(ballUpdate, 1000 / 30);
 
-
-
-function updatePlayerPosition() {
-
-  //fills rectangle with red color hexadecimals value
-  ctx.fillStyle = "#FF0000";
-
-  //creates a rectangle on x and y position
-
-  ctx.fillRect(player.x, player.y, player.width, player.height);
-
-}
 
 // add event listener to window. It listens on mouse movements. e parameter contains values of mouse position
 
@@ -123,34 +143,6 @@ window.addEventListener('mousemove', e => {
 
 });
 
-function scorePoint() {
-  score.points++;
-}
-
-function drawScore() {
-  ctx.clearRect(score.x, (score.y - 25), 150, 25);
-  // ctx.fillRect(score.x, (score.y - 25), 150, 25);
-  ctx.font = "25px Arial";
-  ctx.fillText('Score: ' + score.points, score.x, score.y);
-
-
-}
-
-function checkCollition() {
 
 
 
-  if ((x <= player.x && y >= player.y && y <= (player.y + player.height))) {
-
-    if (x > 0) {
-
-      spdX += 20;
-
-    }
-
-
-
-
-  }
-
-}

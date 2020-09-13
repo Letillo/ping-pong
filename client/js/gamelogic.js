@@ -61,7 +61,12 @@ var player = {
   x: 0,
   y: 0,
   width: 0,
-  height: 0
+  height: 0,
+  draw: function(){
+
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+
+  }
 
 }
 
@@ -69,7 +74,13 @@ var player = {
 var score = {
   x: 200,
   y: 50,
-  points: 1
+  points: 1,
+  draw: function(){
+
+    ctx.font = "25px Arial";
+    ctx.fillText('Score: ' + this.points, this.x, this.y);
+
+  }
 };
 
 player.x = 50;
@@ -92,7 +103,6 @@ function resizeCanvas() {
 }
 
 function ballUpdate() {
-  ball.clr();
   // middle line field draw
   ctx.strokeRect(window.innerWidth / 2, 0, 0, window.innerHeight);
   ctx.fillStyle = "#ff0000";
@@ -114,6 +124,9 @@ function ballUpdate() {
   if (ball.coorY > canvas.height) { ball.spdY = -20; }
   if (ball.coorY < 0) { ball.spdY = 20; }
 
+  clearCanvas();
+
+
   requestAnimationFrame(ballUpdate);
 
 }
@@ -121,7 +134,8 @@ function ballUpdate() {
 function updatePlayerPosition() {
 
   //creates a rectangle on x and y position
-  ctx.fillRect(player.x, player.y, player.width, player.height);
+  player.draw();
+
 }
 
 function scorePoint() {
@@ -131,8 +145,9 @@ function scorePoint() {
 function drawScore() {
   ctx.clearRect(score.x, (score.y - 25), 150, 25);
   // ctx.fillRect(score.x, (score.y - 25), 150, 25);
-  ctx.font = "25px Arial";
-  ctx.fillText('Score: ' + score.points, score.x, score.y);
+
+  score.draw();
+  
 }
 
 function checkCollition() {
@@ -141,6 +156,17 @@ function checkCollition() {
       ball.spdX += 20;
     }
   }
+}
+
+function clearCanvas(){
+
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ball.draw();
+    score.draw();
+    player.draw();
+
 }
 
 

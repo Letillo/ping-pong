@@ -27,7 +27,7 @@ var player = {
 }
 
 
-player.x = 10;
+player.x = 50;
 player.y = 300;
 
 player.width = 10;
@@ -56,6 +56,8 @@ function ballStartingPoint() {
   
   function ballUpdate() {
     // clear the previous ball point
+
+  
     ctx.clearRect(x, y, 10, 10);
     // middle line field draw
     ctx.strokeRect(window.innerWidth / 2, 0, 0, window.innerHeight);
@@ -65,10 +67,15 @@ function ballStartingPoint() {
     // ball draw
     ctx.fillRect(x, y, 10, 10);
   
+
+    
+
     if (x > canvas.width) { spdX = -20; }
-    if (x < 0) { spdX = 20; }
+    if(x < 0){ballStartingPoint()}
     if (y > canvas.height) { spdY = -20; }
-    if (y < 0) { spdY = 20; }
+    if (y <= 0) { spdY = 20; }
+
+    checkCollition();
   }
   
   
@@ -99,3 +106,22 @@ window.addEventListener('mousemove', e => {
     
 });
 
+
+function checkCollition(){
+
+    
+
+    if((x <= player.x && y >= player.y && y <= (player.y+player.height))){
+
+        if (x > 0 ){
+
+            spdX += 20;
+
+        }
+       
+        
+        
+
+    }
+
+}

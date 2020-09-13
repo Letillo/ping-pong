@@ -6,8 +6,7 @@
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+resizeCanvas();
 
 
 // hides the mouse cursor when it hovers the body section of the page.
@@ -22,27 +21,32 @@ var ball = {
   // key:"value",
   size: 20,
   color: "#FF0000",
-  x: 0,
-  y: 0,
-  spdX: 0,
-  spdY: 0,
+  coorX: 0,
+  coorY: 0,
+  spdX: 20,
+  spdY: 20,
 
   //fills rectangle with red color hexadecimals value
+
+  clr: function () {
+    ctx.clearRect(this.coorX, this.coorY, this.size, this.size);
+  },
+
   draw: function () {
-    // clear the previous ball point
-    ctx.clearRect(this.x, this.y, this.size, this.size);
-    ctx.fillRect(this.x, this.y, this.size, this.size);
+    ctx.fillRect(this.coorX, this.coorY, this.size, this.size);
     ctx.fillStyle = this.color;
   },
 
   startPoint: function () {
-    this.x = window.innerWidth / 2;
-    this.y = Math.floor(Math.random() * window.innerHeight);
+    this.clr();
+    this.coorX = window.innerWidth / 2;
+    this.coorY = Math.floor(Math.random() * window.innerHeight);
     // var d give direction. if positive goes to the right.
     var d = Math.round(Math.random());
     (d == 0) ? d = 1 : d = -1;
     this.spdX = 30 * d;
     this.spdY = 2;
+    this.draw();
   }
 
 };
@@ -81,40 +85,36 @@ player.height = 300;
 // 
 
 
-// function ballStartingPoint() {
-//   x : window.innerWidth / 2,
-//   y : Math.floor(Math.random() * window.innerHeight),
+function resizeCanvas() {
 
-//   // var d give direction. if positive goes to the right.
-//   var d = Math.round(Math.random());
-//   (d == 0) ? d = 1 : d = -1;
-//   spdX = 30 * d;
-//   spdY = 2;
-// }
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
 
 function ballUpdate() {
-
+  ball.clr();
   // middle line field draw
   ctx.strokeRect(window.innerWidth / 2, 0, 0, window.innerHeight);
   ctx.fillStyle = "#ff0000";
-  x += spdX;
-  y += spdY;
-  // ball draw
-  ctx.fillRect(x, y, 10, 10);
+  ball.coorX += ball.spdX;
+  ball.coorY += ball.spdY;
+  ball.draw();
 
-  if (x > canvas.width) { spdX = -20; }
-  if (x <= 0) {
+  if (ball.coorX > canvas.width) { ball.spdX = -20; }
+  if (ball.coorX <= 0) {
     drawScore(score.points)
     scorePoint();
-    ballStartingPoint();
+    ball.startPoint();
   }
-  if (y > canvas.height) { spdY = -20; }
-  if (y <= 0) { spdY = 20; }
+  if (ball.coorY > canvas.height) { ball.spdY = -20; }
+  if (ball.coorY <= 0) { ball.spdY = 20; }
 
   checkCollition();
 
-  if (y > canvas.height) { spdY = -20; }
-  if (y < 0) { spdY = 20; }
+  if (ball.coorY > canvas.height) { ball.spdY = -20; }
+  if (ball.coorY < 0) { ball.spdY = 20; }
+
+  requestAnimationFrame(ballUpdate);
 
 }
 
@@ -136,12 +136,14 @@ function drawScore() {
 }
 
 function checkCollition() {
-  if ((x <= player.x && y >= player.y && y <= (player.y + player.height))) {
-    if (x > 0) {
-      spdX += 20;
+  if ((ball.coorX <= player.x && ball.coorY >= player.y && ball.coorY <= (player.y + player.height))) {
+    if (ball.coorX > 0) {
+      ball.spdX += 20;
     }
   }
 }
+
+
 
 // 
 // Call functions
@@ -152,8 +154,16 @@ function checkCollition() {
 //update function
 updatePlayerPosition();
 
-ballStartingPoint();
-setInterval(ballUpdate, 1000 / 30);
+
+ball.startPoint();
+
+requestAnimationFrame(ballUpdate);
+
+window.addEventListener("resize", function () {
+
+  resizeCanvas();
+
+});
 
 
 // add event listener to window. It listens on mouse movements. e parameter contains values of mouse position

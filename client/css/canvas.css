@@ -1,11 +1,17 @@
-body { padding: 0; margin: 0; }
-
-#canvas{
-
+html, body {
+    
+    overflow: auto;
+    padding: 0; 
+    margin: 0;
+    background: gray;    
     height: 100%;
     width: 100%;
+}
+
+#canvas{        
     background-color: burlywood;
-    margin: 0px;
-    padding: 0px;
+    /* border: 1px solid black; */
+    display: block;
+   
 
 }

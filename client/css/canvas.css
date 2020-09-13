@@ -1,0 +1,11 @@
+body { padding: 0; margin: 0; }
+
+#canvas{
+
+    height: 100%;
+    width: 100%;
+    background-color: burlywood;
+    margin: 0px;
+    padding: 0px;
+
+}

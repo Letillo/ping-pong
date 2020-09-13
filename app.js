@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
 app.use("/js",express.static(__dirname+"/client/js"));
 app.use("/css",express.static(__dirname+"/client/css"));
 app.use("/resources",express.static(__dirname+"/client/resources"));
+app.use("/client",express.static(__dirname+"/client"));
 
 
 http.listen(3000, () => {

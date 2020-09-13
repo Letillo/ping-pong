@@ -6,8 +6,7 @@
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+resizeCanvas();
 
 var x;
 var y;
@@ -51,6 +50,13 @@ document.body.style.cursor = 'none';
 //   Functions 
 // 
 
+
+function resizeCanvas(){
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
 function ballStartingPoint() {
   // X and Y coords
   x = window.innerWidth / 2;
@@ -91,6 +97,8 @@ function ballUpdate() {
   if (y > canvas.height) { spdY = -20; }
   if (y < 0) { spdY = 20; }
 
+  requestAnimationFrame(ballUpdate);
+
 }
 
 function updatePlayerPosition() {
@@ -129,7 +137,13 @@ function checkCollition() {
 updatePlayerPosition();
 
 ballStartingPoint();
-setInterval(ballUpdate, 1000 / 30);
+requestAnimationFrame(ballUpdate);
+
+window.addEventListener("resize", function(){
+
+    resizeCanvas();
+
+});
 
 
 // add event listener to window. It listens on mouse movements. e parameter contains values of mouse position

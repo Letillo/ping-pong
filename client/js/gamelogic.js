@@ -12,9 +12,6 @@ var y;
 var spdX;
 var spdY;
 
-// Score count variables
-var pointsOne = 0;
-
 // player object. Values are set with DB values.
 
 var player = {
@@ -29,11 +26,11 @@ var player = {
 
 }
 
-// temp
+// keep track of player points and its coordinates
 var score = {
   x: 200,
   y: 50,
-  points: 0
+  points: 1
 };
 
 player.x = 50;
@@ -82,7 +79,7 @@ function ballUpdate() {
 
 
   if (x > canvas.width) { spdX = -20; }
-  if (x < 0) {
+  if (x <= 0) {
     drawScore(score.points)
     scorePoint();
     ballStartingPoint();
@@ -128,7 +125,6 @@ window.addEventListener('mousemove', e => {
 
 function scorePoint() {
   score.points++;
-  ballUpdate();
 }
 
 function drawScore() {
@@ -137,22 +133,24 @@ function drawScore() {
   ctx.font = "25px Arial";
   ctx.fillText('Score: ' + score.points, score.x, score.y);
 
-  function checkCollition() {
+
+}
+
+function checkCollition() {
 
 
 
-    if ((x <= player.x && y >= player.y && y <= (player.y + player.height))) {
+  if ((x <= player.x && y >= player.y && y <= (player.y + player.height))) {
 
-      if (x > 0) {
+    if (x > 0) {
 
-        spdX += 20;
-
-      }
-
-
-
+      spdX += 20;
 
     }
 
+
+
+
   }
+
 }

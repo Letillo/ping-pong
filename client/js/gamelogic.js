@@ -9,11 +9,43 @@ var ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-var x;
-var y;
-// ball speed
-var spdX;
-var spdY;
+
+// hides the mouse cursor when it hovers the body section of the page.
+document.body.style.cursor = 'none';
+
+
+// 
+//   Objects 
+// 
+
+var ball = {
+  // key:"value",
+  size: 20,
+  color: "#FF0000",
+  x: 0,
+  y: 0,
+  spdX: 0,
+  spdY: 0,
+
+  //fills rectangle with red color hexadecimals value
+  draw: function () {
+    // clear the previous ball point
+    ctx.clearRect(this.x, this.y, this.size, this.size);
+    ctx.fillRect(this.x, this.y, this.size, this.size);
+    ctx.fillStyle = this.color;
+  },
+
+  startPoint: function () {
+    this.x = window.innerWidth / 2;
+    this.y = Math.floor(Math.random() * window.innerHeight);
+    // var d give direction. if positive goes to the right.
+    var d = Math.round(Math.random());
+    (d == 0) ? d = 1 : d = -1;
+    this.spdX = 30 * d;
+    this.spdY = 2;
+  }
+
+};
 
 // player object. Values are set with DB values.
 
@@ -42,33 +74,26 @@ player.y = 300;
 player.width = 10;
 player.height = 300;
 
-// hides the mouse cursor when it hovers the body section of the page.
-document.body.style.cursor = 'none';
-
 
 
 // 
 //   Functions 
 // 
 
-function ballStartingPoint() {
-  // X and Y coords
-  x = window.innerWidth / 2;
-  y = Math.floor(Math.random() * window.innerHeight)
-  // var d give direction. if positive goes to the right.
-  var d = Math.round(Math.random());
-  (d == 0) ? d = 1 : d = -1;
-  spdX = 30 * d;
-  spdY = 2;
-  // ball draw
-  ctx.fillRect(x, y, 10, 10);
-}
+
+// function ballStartingPoint() {
+//   x : window.innerWidth / 2,
+//   y : Math.floor(Math.random() * window.innerHeight),
+
+//   // var d give direction. if positive goes to the right.
+//   var d = Math.round(Math.random());
+//   (d == 0) ? d = 1 : d = -1;
+//   spdX = 30 * d;
+//   spdY = 2;
+// }
 
 function ballUpdate() {
-  // clear the previous ball point
 
-
-  ctx.clearRect(x, y, 10, 10);
   // middle line field draw
   ctx.strokeRect(window.innerWidth / 2, 0, 0, window.innerHeight);
   ctx.fillStyle = "#ff0000";
@@ -94,8 +119,7 @@ function ballUpdate() {
 }
 
 function updatePlayerPosition() {
-  //fills rectangle with red color hexadecimals value
-  ctx.fillStyle = "#FF0000";
+
   //creates a rectangle on x and y position
   ctx.fillRect(player.x, player.y, player.width, player.height);
 }

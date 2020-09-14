@@ -1,12 +1,4 @@
 // 
-//   Imports
-// 
-
-
-//  - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-// 
 //   Variables 
 // 
 
@@ -20,9 +12,11 @@ resizeCanvas();
 document.body.style.cursor = 'none';
 
 
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
 // 
 //   Objects 
 // 
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
 
 var ball = {
   size: 20,
@@ -64,8 +58,8 @@ player1.draw(ctx);
 var player2 = new Player(2, "Gorda", (window.innerWidth - 50), 300, 10, 300);
 player2.draw(ctx);
 
-var scoreP1 = new Score(window.innerWidth/2-200, 50);
-var scoreP2 = new Score(window.innerWidth/2+100, 50); 
+var scoreP1 = new Score(window.innerWidth / 2 - 200, 50);
+var scoreP2 = new Score(window.innerWidth / 2 + 100, 50);
 
 
 // score 
@@ -79,10 +73,11 @@ var scoreP2 = new Score(window.innerWidth/2+100, 50);
 //   }
 // };
 
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
 // 
 //   Functions 
 // 
-
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function resizeCanvas() {
 
@@ -92,35 +87,35 @@ function resizeCanvas() {
 
 function ballUpdate() {
   // middle line field draw
- 
-    ball.coorX += ball.spdX;
-    ball.coorY += ball.spdY;
-    ball.draw();
 
-    if (ball.coorX > canvas.width) { 
+  ball.coorX += ball.spdX;
+  ball.coorY += ball.spdY;
+  ball.draw();
 
-        scoreP1.scorePoint(ctx);
-        
-        ball.startPoint();
+  if (ball.coorX > canvas.width) {
 
-    }
-    if (ball.coorX <= 0) {
-        
-        scoreP2.scorePoint(ctx);
-        ball.startPoint();
-    }
-    if (ball.coorY > canvas.height) { ball.spdY = -20; }
-    if (ball.coorY <= 0) { ball.spdY = 20; }
+    scoreP1.scorePoint(ctx);
 
-    checkCollition();
+    ball.startPoint();
 
-    if (ball.coorY > canvas.height) { ball.spdY = -20; }
-    if (ball.coorY < 0) { ball.spdY = 20; }
+  }
+  if (ball.coorX <= 0) {
 
-    clearCanvas();
+    scoreP2.scorePoint(ctx);
+    ball.startPoint();
+  }
+  if (ball.coorY > canvas.height) { ball.spdY = -20; }
+  if (ball.coorY <= 0) { ball.spdY = 20; }
+
+  checkCollition();
+
+  if (ball.coorY > canvas.height) { ball.spdY = -20; }
+  if (ball.coorY < 0) { ball.spdY = 20; }
+
+  clearCanvas();
 
 
-    requestAnimationFrame(ballUpdate);
+  requestAnimationFrame(ballUpdate);
 
 }
 
@@ -140,13 +135,30 @@ function checkCollition() {
       ball.spdX += 20;
     }
   }
+
+  if (
+    (ball.coorX == player2.coordX &&
+      ball.coorY >= player2.coordY &&
+      ball.coorY <= (player2.coordY + player2.height))) {
+    if (!(ball.coorX > window.innerWidth)) {
+      ball.spdX -= 20;
+    }
+  }
+
+  // if ((ball.coorX == player2.coordX &&
+  //   ball.coorY >= player2.coordY &&
+  //   ball.coorY <= player2.coordY)) {
+
+  //   ball.spdX -= 20;
+  //   // ball.spdY =  
+
+  // }
+
+
 }
 
 function clearCanvas() {
-
-
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   ball.draw();
   scoreP1.draw(ctx);
   scoreP2.draw(ctx);
@@ -159,38 +171,40 @@ function clearCanvas() {
 }
 
 
-
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
 // 
 // Call functions
 // 
-
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 //update function
 updatePlayerPosition();
-
 
 ball.startPoint();
 
 requestAnimationFrame(ballUpdate);
 
 window.addEventListener("resize", function () {
-
   resizeCanvas();
-
 });
 
 
 // add event listener to window. It listens on mouse movements. e parameter contains values of mouse position
 
 window.addEventListener('mousemove', e => {
-
-  ctx.clearRect(player1.coordX, player1.coordY, player1.width, player1.height);
   player1.coordY = e.clientY - 50;
-
   updatePlayerPosition();
-
 });
+
+window.addEventListener("keypress", key => {
+  if (key.code == "KeyW") {
+    player2.coordY -= 200;
+  } else if (key.code == "KeyS") {
+    player2.coordY += 200;
+  }
+  updatePlayerPosition();
+})
 
 
 

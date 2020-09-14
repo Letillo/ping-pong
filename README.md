@@ -2,10 +2,4 @@
 
 Under construction
 
-<<<<<<< HEAD
-test master
-=======
-dev branch
 
-Danny
->>>>>>> dev

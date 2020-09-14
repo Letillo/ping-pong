@@ -1,9 +1,16 @@
 // 
+//   Imports
+// 
+
+
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+// 
 //   Variables 
 // 
 
 // canvas object and size configuration.
-
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext("2d");
 resizeCanvas();
@@ -18,7 +25,6 @@ document.body.style.cursor = 'none';
 // 
 
 var ball = {
-  // key:"value",
   size: 20,
   color: "#FF0000",
   coorX: 0,
@@ -51,45 +57,23 @@ var ball = {
 
 };
 
-// player object. Values are set with DB values.
+//  Player 1  Module  from Player.js
+var player1 = new Player(1, "tillo", 50, 300, 10, 300);
+player1.draw(ctx);
 
-var player = {
+var player2 = new Player(2, "Gorda", (window.innerWidth - 50), 300, 10, 300);
+player2.draw(ctx);
 
-  id: 0,
-  name: "",
-  position: "",
-  x: 0,
-  y: 0,
-  width: 0,
-  height: 0,
-  draw: function(){
-
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-
-  }
-
-}
-
-// keep track of player points and its coordinates
+// score 
 var score = {
   x: 200,
   y: 50,
   points: 1,
-  draw: function(){
-
+  draw: function () {
     ctx.font = "25px Arial";
     ctx.fillText('Score: ' + this.points, this.x, this.y);
-
   }
 };
-
-player.x = 50;
-player.y = 300;
-
-player.width = 10;
-player.height = 300;
-
-
 
 // 
 //   Functions 
@@ -134,7 +118,8 @@ function ballUpdate() {
 function updatePlayerPosition() {
 
   //creates a rectangle on x and y position
-  player.draw();
+  player1.draw(ctx);
+  player2.draw(ctx);
 
 }
 
@@ -147,25 +132,26 @@ function drawScore() {
   // ctx.fillRect(score.x, (score.y - 25), 150, 25);
 
   score.draw();
-  
+
 }
 
 function checkCollition() {
-  if ((ball.coorX <= player.x && ball.coorY >= player.y && ball.coorY <= (player.y + player.height))) {
+  if ((ball.coorX <= player1.coordX && ball.coorY >= player1.coordY && ball.coorY <= (player1.coordY + player1.height))) {
     if (ball.coorX > 0) {
       ball.spdX += 20;
     }
   }
 }
 
-function clearCanvas(){
+function clearCanvas() {
 
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ball.draw();
-    score.draw();
-    player.draw();
+  ball.draw();
+  score.draw();
+  player1.draw(ctx);
+  player2.draw(ctx);
 
 }
 
@@ -196,8 +182,8 @@ window.addEventListener("resize", function () {
 
 window.addEventListener('mousemove', e => {
 
-  ctx.clearRect(player.x, player.y, player.width, player.height);
-  player.y = e.clientY - 50;
+  ctx.clearRect(player1.coordX, player1.coordY, player1.width, player1.height);
+  player1.coordY = e.clientY - 50;
 
   updatePlayerPosition();
 

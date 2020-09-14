@@ -1,12 +1,4 @@
 // 
-//   Imports
-// 
-
-
-//  - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-// 
 //   Variables 
 // 
 
@@ -20,9 +12,11 @@ resizeCanvas();
 document.body.style.cursor = 'none';
 
 
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
 // 
 //   Objects 
 // 
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
 
 var ball = {
   size: 20,
@@ -75,10 +69,11 @@ var score = {
   }
 };
 
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
 // 
 //   Functions 
 // 
-
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function resizeCanvas() {
 
@@ -110,9 +105,7 @@ function ballUpdate() {
 
   clearCanvas();
 
-
   requestAnimationFrame(ballUpdate);
-
 }
 
 function updatePlayerPosition() {
@@ -141,13 +134,30 @@ function checkCollition() {
       ball.spdX += 20;
     }
   }
+
+  if (
+    (ball.coorX == player2.coordX &&
+      ball.coorY >= player2.coordY &&
+      ball.coorY <= (player2.coordY + player2.height))) {
+    if (!(ball.coorX > window.innerWidth)) {
+      ball.spdX -= 20;
+    }
+  }
+
+  // if ((ball.coorX == player2.coordX &&
+  //   ball.coorY >= player2.coordY &&
+  //   ball.coorY <= player2.coordY)) {
+
+  //   ball.spdX -= 20;
+  //   // ball.spdY =  
+
+  // }
+
+
 }
 
 function clearCanvas() {
-
-
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   ball.draw();
   score.draw();
   player1.draw(ctx);
@@ -156,38 +166,40 @@ function clearCanvas() {
 }
 
 
-
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
 // 
 // Call functions
 // 
-
+//  - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 //update function
 updatePlayerPosition();
-
 
 ball.startPoint();
 
 requestAnimationFrame(ballUpdate);
 
 window.addEventListener("resize", function () {
-
   resizeCanvas();
-
 });
 
 
 // add event listener to window. It listens on mouse movements. e parameter contains values of mouse position
 
 window.addEventListener('mousemove', e => {
-
-  ctx.clearRect(player1.coordX, player1.coordY, player1.width, player1.height);
   player1.coordY = e.clientY - 50;
-
   updatePlayerPosition();
-
 });
+
+window.addEventListener("keypress", key => {
+  if (key.code == "KeyW") {
+    player2.coordY -= 200;
+  } else if (key.code == "KeyS") {
+    player2.coordY += 200;
+  }
+  updatePlayerPosition();
+})
 
 
 

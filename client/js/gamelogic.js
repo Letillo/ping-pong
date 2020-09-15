@@ -44,7 +44,7 @@ var ball = {
     // var d give direction. if positive goes to the right.
     var d = Math.round(Math.random());
     (d == 0) ? d = 1 : d = -1;
-    this.spdX = 30 * d;
+    this.spdX = 10 * d;
     this.spdY = 2;
     this.draw();
   }
@@ -61,18 +61,6 @@ player2.draw(ctx);
 var scoreP1 = new Score(window.innerWidth / 2 - 200, 50);
 var scoreP2 = new Score(window.innerWidth / 2 + 100, 50);
 
-
-// score 
-// var score = {
-//   x: 200,
-//   y: 50,
-//   points: 1,
-//   draw: function () {
-//     ctx.font = "25px Arial";
-//     ctx.fillText('Score: ' + this.points, this.x, this.y);
-//   }
-// };
-
 //  - - - - - - - - - - - - - - - - - - - - - - - - -
 // 
 //   Functions 
@@ -86,7 +74,6 @@ function resizeCanvas() {
 }
 
 function ballUpdate() {
-  // middle line field draw
 
   ball.coorX += ball.spdX;
   ball.coorY += ball.spdY;
@@ -104,16 +91,12 @@ function ballUpdate() {
     scoreP2.scorePoint(ctx);
     ball.startPoint();
   }
-  if (ball.coorY > canvas.height) { ball.spdY = -20; }
-  if (ball.coorY <= 0) { ball.spdY = 20; }
+  if (ball.coorY > canvas.height) { ball.spdY = -10; }
+  if (ball.coorY <= 0) { ball.spdY = 10; }
 
   checkCollition();
 
-  if (ball.coorY > canvas.height) { ball.spdY = -20; }
-  if (ball.coorY < 0) { ball.spdY = 20; }
-
   clearCanvas();
-
 
   requestAnimationFrame(ballUpdate);
 
@@ -130,29 +113,26 @@ function updatePlayerPosition() {
 
 
 function checkCollition() {
-  if ((ball.coorX <= player1.coordX && ball.coorY >= player1.coordY && ball.coorY <= (player1.coordY + player1.height))) {
+  if ((
+    ball.coorX <= player1.coordX &&
+    ball.coorY >= player1.coordY &&
+    ball.coorY <= (player1.coordY + player1.height))) {
     if (ball.coorX > 0) {
       ball.spdX += 20;
     }
   }
 
-  if (
-    (ball.coorX == player2.coordX &&
-      ball.coorY >= player2.coordY &&
-      ball.coorY <= (player2.coordY + player2.height))) {
-    if (!(ball.coorX > window.innerWidth)) {
-      ball.spdX -= 20;
-    }
+  if ((
+    ball.coorX >= player2.coordX &&
+    ball.coorY >= player2.coordY &&
+    ball.coorY <= (player2.coordY + player2.height))) {
+    ball.spdX -= 20;
+    // if (!(ball.coorX > window.innerWidth)) {
+    //   ball.spdX -= 20;
+    // }
   }
 
-  // if ((ball.coorX == player2.coordX &&
-  //   ball.coorY >= player2.coordY &&
-  //   ball.coorY <= player2.coordY)) {
 
-  //   ball.spdX -= 20;
-  //   // ball.spdY =  
-
-  // }
 
 
 }

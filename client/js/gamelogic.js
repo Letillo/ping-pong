@@ -77,7 +77,7 @@ function ballUpdate() {
 
   ball.coorX += ball.spdX;
   ball.coorY += ball.spdY;
-  ball.draw();
+  // ball.draw();
 
   if (ball.coorX > canvas.width) {
 
@@ -101,16 +101,6 @@ function ballUpdate() {
   requestAnimationFrame(ballUpdate);
 
 }
-
-function updatePlayerPosition() {
-
-  //creates a rectangle on x and y position
-  player1.draw(ctx);
-  player2.draw(ctx);
-
-}
-
-
 
 function checkCollition() {
   if ((
@@ -158,9 +148,6 @@ function clearCanvas() {
 //  - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
-//update function
-updatePlayerPosition();
-
 ball.startPoint();
 
 requestAnimationFrame(ballUpdate);
@@ -173,18 +160,45 @@ window.addEventListener("resize", function () {
 // add event listener to window. It listens on mouse movements. e parameter contains values of mouse position
 
 window.addEventListener('mousemove', e => {
-  player1.coordY = e.clientY - 50;
-  updatePlayerPosition();
+
+  if (e.clientY <= 150 || e.clientY >= (innerHeight - player1.height / 2)) {
+    (e.clientY <= 150) ? player1.coordY = 0 : player1.coordY = (innerHeight - player1.height)
+  }
+
+  if (e.clientY > (player1.height / 2) && e.clientY < (innerHeight - player1.height / 2)) {
+    player1.coordY = e.clientY - player1.height / 2;
+  }
+
 });
 
-window.addEventListener("keypress", key => {
+
+
+window.addEventListener("keydown", key => {
+
   if (key.code == "KeyW") {
-    player2.coordY -= 200;
-  } else if (key.code == "KeyS") {
-    player2.coordY += 200;
+    player2.coordY -= 50;
+    if (player2.coordY < 0) { player2.coordY = 0 }
   }
-  updatePlayerPosition();
-})
+  if (key.code == "KeyS") {
+    player2.coordY += 50;
+    if (player2.coordY > (innerHeight - player2.height)) { player2.coordY = innerHeight - player2.height }
+  }
+
+  if (key.code == "KeyW" && key.shiftKey == true) {
+    player2.coordY -= 150;
+    if (player2.coordY < 0) { player2.coordY = 0 }
+  }
+
+  if (key.code == "KeyS" && key.shiftKey == true) {
+    player2.coordY += 150;
+    if (player2.coordY > (innerHeight - player2.height)) { player2.coordY = innerHeight - player2.height }
+  }
+
+
+
+
+}
+);
 
 
 
